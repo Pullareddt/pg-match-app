@@ -3,6 +3,17 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="PG Finder", layout="wide")
 
+st.markdown("""
+<style>
+h1 {text-align: center;}
+.stButton>button {
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 10px;
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.title("PG Finder")
 st.write("Find best PG based on your needs")
 
@@ -53,20 +64,24 @@ if st.button("Find PG"):
 
     st.subheader("Top Results")
 
-    for pg, score in results:
+    for i, (pg, score) in enumerate(results):
 
-        st.markdown(f"""
-        ### {pg['name']} - {round(score,1)}%
+    if i == 0:
+        st.success("Best Match")
 
-        Price: ₹{pg['price']}  
-        Location: {pg['location']}  
-        Food: {pg['food']}
-        """)
+    st.markdown(f"""
+    ### {pg['name']} — {round(score,1)}%
 
-        # Graph
-        labels = ["Cleanliness", "Food"]
-        values = [pg["cleanliness"], pg["food_quality"]]
+    Price: ₹{pg['price']}  
+    Location: {pg['location']}  
+    Food: {pg['food']}
+    """)
 
-        fig, ax = plt.subplots()
-        ax.bar(labels, values)
-        st.pyplot(fig)
+    labels = ["Cleanliness", "Food"]
+    values = [pg["cleanliness"], pg["food_quality"]]
+
+    fig, ax = plt.subplots(figsize=(4,2))
+    ax.bar(labels, values)
+    st.pyplot(fig)
+
+    st.divider()
