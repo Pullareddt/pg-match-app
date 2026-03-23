@@ -63,8 +63,53 @@ for pg in filtered_pgs:
 
 scored_pgs.sort(key=lambda x: x["score"], reverse=True)
 
-st.subheader("Top Matches")
+st.subheader("🏆 Top Matches")
 
 for pg in scored_pgs[:3]:
-    st.write(f"### {pg['name']} — {pg['score']}% match")
-    st.write(f"Price: ₹{pg['price']}")
+
+    original = next(x for x in filtered_pgs if x["name"] == pg["name"])
+
+    st.markdown(f"### 🏠 {pg['name']} — {pg['score']}% Match")
+
+    # WHY THIS MATCH
+    st.markdown("**Why this match?**")
+
+    if pg["price"] <= user["budget"]:
+        st.write(f"✔️ Within budget (₹{pg['price']})")
+    else:
+        st.write(f"⚠️ Above budget (₹{pg['price']})")
+
+    if original["location"] == user["location"]:
+        st.write("📍 Exact location match")
+
+    if original["food"] == "Yes":
+        st.write("🍽️ Food available")
+
+    if original["crowd"] == user["crowd"]:
+        st.write("👥 Preferred crowd match")
+
+    # WHY CHOOSE
+    st.markdown("**Why choose this PG?**")
+
+    if original["cleanliness"] >= 8:
+        st.write("✨ High cleanliness")
+
+    if original["food_quality"] >= 7:
+        st.write("🍛 Good food quality")
+
+    # DRAWBACKS
+    st.markdown("**Things to consider:**")
+
+    if pg["price"] > user["budget"]:
+        st.write("⚠️ Slightly above budget")
+
+    if original["cleanliness"] < 7:
+        st.write("⚠️ Cleanliness could be better")
+
+    if original["food_quality"] < 6:
+        st.write("⚠️ Food quality is average/low")
+
+    if original["crowd"] != user["crowd"]:
+        st.write("⚠️ Mixed crowd")
+
+    st.divider()
