@@ -1,34 +1,56 @@
 import streamlit as st
+import random
 
 st.set_page_config(page_title="PG Match Engine", layout="wide")
 
 st.title("🏠 PG Match Engine")
 
 # ---------------- USER INPUT ----------------
-budget = st.slider("Budget", 3000, 10000, 6000)
+
+# ✅ FIXED SLIDER (STEP VALUE)
+budget = st.slider("Budget", 3000, 10000, step=500, value=6000)
+
 food = st.selectbox("Food Required", ["Yes", "No"])
 gender = st.selectbox("Gender", ["Male", "Female"])
 crowd = st.selectbox("Preferred Crowd", ["Employees", "Students", "Mixed"])
 
+# ✅ LOCATION DROPDOWN (FORM STYLE)
+location = st.selectbox(
+    "Preferred Location",
+    ["ameerpet", "sr nagar", "madhapur", "kphb", "kukatpally", "hitech city"]
+)
+
 user = {
     "budget": budget,
-    "location": "ameerpet",
+    "location": location,
     "food": food,
     "gender": gender,
     "room": "Non-AC",
     "crowd": crowd
 }
 
-# ---------------- PG DATA ----------------
-pg_data = [
-{"name":"Green Nest PG","price":5500,"location":"ameerpet","food":"Yes","gender":"Male","room":"Non-AC","cleanliness":8,"food_quality":7,"crowd":"Employees"},
-{"name":"Peace PG","price":5800,"location":"ameerpet","food":"Yes","gender":"Male","room":"Non-AC","cleanliness":7,"food_quality":7,"crowd":"Employees"},
-{"name":"Comfort PG","price":6200,"location":"ameerpet","food":"Yes","gender":"Male","room":"Non-AC","cleanliness":6,"food_quality":7,"crowd":"Mixed"},
-{"name":"City PG","price":6500,"location":"ameerpet","food":"Yes","gender":"Female","room":"Non-AC","cleanliness":8,"food_quality":7,"crowd":"Employees"},
-{"name":"Happy Homes PG","price":4800,"location":"sr nagar","food":"Yes","gender":"Female","room":"Non-AC","cleanliness":6,"food_quality":6,"crowd":"Students"}
-]
+# ---------------- DYNAMIC PG DATA (50 PGs) ----------------
+
+locations = ["ameerpet", "sr nagar", "madhapur", "kphb", "kukatpally", "hitech city"]
+crowds = ["Employees", "Students", "Mixed"]
+
+pg_data = []
+
+for i in range(50):
+    pg_data.append({
+        "name": f"PG {i+1}",
+        "price": random.choice(range(4000, 10001, 500)),
+        "location": random.choice(locations),
+        "food": random.choice(["Yes", "No"]),
+        "gender": random.choice(["Male", "Female"]),
+        "room": random.choice(["AC", "Non-AC"]),
+        "cleanliness": random.randint(5, 10),
+        "food_quality": random.randint(5, 10),
+        "crowd": random.choice(crowds)
+    })
 
 # ---------------- FILTER ----------------
+
 filtered_pgs = []
 
 for pg in pg_data:
@@ -38,15 +60,16 @@ for pg in pg_data:
         continue
     filtered_pgs.append(pg)
 
-# ---------------- SCORING + ISSUES INSIDE ----------------
+# ---------------- SCORING ----------------
+
 results = []
 
 for pg in filtered_pgs:
 
     score = 0
-    issues = []   # ✅ defined inside loop (no error ever)
+    issues = []
 
-    # Budget scoring
+    # Budget
     if pg["price"] <= user["budget"]:
         score += 30
     else:
@@ -56,6 +79,8 @@ for pg in filtered_pgs:
     # Location
     if pg["location"] == user["location"]:
         score += 25
+    else:
+        score += 10
 
     # Cleanliness
     score += (pg["cleanliness"]/10) * 15
@@ -89,6 +114,7 @@ for pg in filtered_pgs:
 results.sort(key=lambda x: x["score"], reverse=True)
 
 # ---------------- OUTPUT ----------------
+
 st.subheader("🏆 Top Matches")
 
 for item in results[:3]:
@@ -123,7 +149,7 @@ for item in results[:3]:
     if pg["food_quality"] >= 7:
         st.write("🍛 Good food quality")
 
-    # ✅ FINAL FIXED SECTION
+    # THINGS TO CONSIDER
     st.markdown("**Things to consider:**")
 
     if issues:
