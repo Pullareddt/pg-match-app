@@ -1,32 +1,10 @@
 import streamlit as st
 
+st.set_page_config(page_title="PG Match Engine", layout="wide")
+
 st.title("🏠 PG Match Engine")
 
-# ------------------ PG DATA ------------------
-pg_data = [
-{"name":"Green Nest PG","price":5500,"location":"ameerpet","food":"Yes","gender":"Male","room":"Non-AC","cleanliness":8,"food_quality":7,"crowd":"Employees"},
-{"name":"Urban Stay PG","price":7000,"location":"ameerpet","food":"Yes","gender":"Female","room":"AC","cleanliness":9,"food_quality":8,"crowd":"Employees"},
-{"name":"Happy Homes PG","price":4800,"location":"sr nagar","food":"Yes","gender":"Female","room":"Non-AC","cleanliness":6,"food_quality":6,"crowd":"Students"},
-{"name":"Comfort PG","price":6200,"location":"ameerpet","food":"Yes","gender":"Male","room":"Non-AC","cleanliness":7,"food_quality":7,"crowd":"Mixed"},
-{"name":"Elite Stay","price":8500,"location":"madhapur","food":"Yes","gender":"Female","room":"AC","cleanliness":9,"food_quality":9,"crowd":"Employees"},
-{"name":"Budget PG","price":4000,"location":"kphb","food":"No","gender":"Male","room":"Non-AC","cleanliness":5,"food_quality":5,"crowd":"Students"},
-{"name":"Royal PG","price":7500,"location":"ameerpet","food":"Yes","gender":"Female","room":"AC","cleanliness":8,"food_quality":8,"crowd":"Employees"},
-{"name":"Metro Stay","price":6000,"location":"sr nagar","food":"Yes","gender":"Male","room":"Non-AC","cleanliness":7,"food_quality":6,"crowd":"Mixed"},
-{"name":"Lake View PG","price":9000,"location":"madhapur","food":"Yes","gender":"Female","room":"AC","cleanliness":9,"food_quality":9,"crowd":"Employees"},
-{"name":"Simple Stay","price":4500,"location":"kukatpally","food":"No","gender":"Male","room":"Non-AC","cleanliness":6,"food_quality":5,"crowd":"Students"},
-{"name":"City PG","price":6500,"location":"ameerpet","food":"Yes","gender":"Female","room":"Non-AC","cleanliness":8,"food_quality":7,"crowd":"Employees"},
-{"name":"Tech Stay","price":8000,"location":"hitech city","food":"Yes","gender":"Male","room":"AC","cleanliness":9,"food_quality":8,"crowd":"Employees"},
-{"name":"Student Hub","price":5000,"location":"dilsukhnagar","food":"Yes","gender":"Female","room":"Non-AC","cleanliness":6,"food_quality":6,"crowd":"Students"},
-{"name":"Peace PG","price":5800,"location":"ameerpet","food":"Yes","gender":"Male","room":"Non-AC","cleanliness":7,"food_quality":7,"crowd":"Employees"},
-{"name":"Luxury Stay","price":10000,"location":"jubilee hills","food":"Yes","gender":"Female","room":"AC","cleanliness":10,"food_quality":9,"crowd":"Employees"},
-{"name":"Easy Stay","price":5200,"location":"sr nagar","food":"Yes","gender":"Male","room":"Non-AC","cleanliness":7,"food_quality":6,"crowd":"Mixed"},
-{"name":"Fast PG","price":6100,"location":"ameerpet","food":"Yes","gender":"Female","room":"Non-AC","cleanliness":8,"food_quality":7,"crowd":"Employees"},
-{"name":"Prime Stay","price":7800,"location":"madhapur","food":"Yes","gender":"Male","room":"AC","cleanliness":9,"food_quality":8,"crowd":"Employees"},
-{"name":"Basic PG","price":4200,"location":"kphb","food":"No","gender":"Female","room":"Non-AC","cleanliness":5,"food_quality":5,"crowd":"Students"},
-{"name":"Comfort Zone","price":6700,"location":"ameerpet","food":"Yes","gender":"Female","room":"Non-AC","cleanliness":8,"food_quality":8,"crowd":"Employees"}
-]
-
-# ------------------ USER INPUT ------------------
+# ---------------- USER INPUT ----------------
 budget = st.slider("Budget", 3000, 10000, 6000)
 food = st.selectbox("Food Required", ["Yes", "No"])
 gender = st.selectbox("Gender", ["Male", "Female"])
@@ -41,19 +19,16 @@ user = {
     "crowd": crowd
 }
 
-# ------------------ LOCATION DISTANCE ------------------
-location_distance = {
-    "ameerpet": 0,
-    "sr nagar": 1,
-    "kphb": 3,
-    "kukatpally": 3,
-    "madhapur": 4,
-    "hitech city": 5,
-    "jubilee hills": 5,
-    "dilsukhnagar": 6
-}
+# ---------------- PG DATA ----------------
+pg_data = [
+{"name":"Green Nest PG","price":5500,"location":"ameerpet","food":"Yes","gender":"Male","room":"Non-AC","cleanliness":8,"food_quality":7,"crowd":"Employees"},
+{"name":"Peace PG","price":5800,"location":"ameerpet","food":"Yes","gender":"Male","room":"Non-AC","cleanliness":7,"food_quality":7,"crowd":"Employees"},
+{"name":"Comfort PG","price":6200,"location":"ameerpet","food":"Yes","gender":"Male","room":"Non-AC","cleanliness":6,"food_quality":7,"crowd":"Mixed"},
+{"name":"City PG","price":6500,"location":"ameerpet","food":"Yes","gender":"Female","room":"Non-AC","cleanliness":8,"food_quality":7,"crowd":"Employees"},
+{"name":"Happy Homes PG","price":4800,"location":"sr nagar","food":"Yes","gender":"Female","room":"Non-AC","cleanliness":6,"food_quality":6,"crowd":"Students"}
+]
 
-# ------------------ FILTER ------------------
+# ---------------- FILTER ----------------
 filtered_pgs = []
 
 for pg in pg_data:
@@ -63,128 +38,98 @@ for pg in pg_data:
         continue
     filtered_pgs.append(pg)
 
-# ------------------ SCORING ------------------
-scored_pgs = []
+# ---------------- SCORING + ISSUES INSIDE ----------------
+results = []
 
 for pg in filtered_pgs:
-    score = 0
 
-    # Budget
-    diff = pg["price"] - user["budget"]
-    if diff <= 0:
+    score = 0
+    issues = []   # ✅ defined inside loop (no error ever)
+
+    # Budget scoring
+    if pg["price"] <= user["budget"]:
         score += 30
-    elif diff <= 500:
-        score += 25
-    elif diff <= 1000:
-        score += 15
     else:
-        score += 5
+        score += 15
+        issues.append(f"⚠️ Above budget (₹{pg['price']})")
 
     # Location
-    dist = abs(location_distance.get(pg["location"], 10) - location_distance.get(user["location"], 10))
-    if dist == 0:
+    if pg["location"] == user["location"]:
         score += 25
-    elif dist <= 2:
-        score += 15
-    else:
-        score += 5
 
-    # Other factors
+    # Cleanliness
     score += (pg["cleanliness"]/10) * 15
-    score += (pg["food_quality"]/10) * 10
+    if pg["cleanliness"] < 7:
+        issues.append("⚠️ Cleanliness could be better")
 
+    # Food quality
+    score += (pg["food_quality"]/10) * 10
+    if pg["food_quality"] < 6:
+        issues.append("⚠️ Food quality is average/low")
+
+    # Crowd
     if pg["crowd"] == user["crowd"]:
         score += 10
     else:
-        score += 5
+        issues.append("⚠️ Crowd may not match preference")
 
+    # Room
     if pg["room"] == user["room"]:
         score += 5
+    else:
+        issues.append("⚠️ Room type mismatch")
 
-    scored_pgs.append({
-        "name": pg["name"],
+    results.append({
+        "pg": pg,
         "score": round(score, 2),
-        "price": pg["price"]
+        "issues": issues
     })
 
-scored_pgs.sort(key=lambda x: x["score"], reverse=True)
+# Sort
+results.sort(key=lambda x: x["score"], reverse=True)
 
-# ------------------ OUTPUT ------------------
+# ---------------- OUTPUT ----------------
 st.subheader("🏆 Top Matches")
 
-for pg in scored_pgs[:3]:
+for item in results[:3]:
 
-    original = next(x for x in filtered_pgs if x["name"] == pg["name"])
+    pg = item["pg"]
+    score = item["score"]
+    issues = item["issues"]
 
     # TAGS
     tags = []
-    if original["cleanliness"] >= 8:
+    if pg["cleanliness"] >= 8:
         tags.append("✨ Clean")
-    if original["food_quality"] >= 7:
+    if pg["food_quality"] >= 7:
         tags.append("🍽️ Good Food")
     if pg["price"] <= user["budget"]:
         tags.append("💰 Budget Friendly")
 
-    tag_str = " | ".join(tags)
-
-    st.markdown(f"### 🏠 {pg['name']} — {pg['score']}% Match")
-    st.markdown(f"**{tag_str}**")
+    st.markdown(f"### 🏠 {pg['name']} — {score}% Match")
+    st.markdown(" | ".join(tags))
 
     # WHY MATCH
     st.markdown("**Why this match?**")
-    if pg["price"] <= user["budget"]:
-        st.write(f"✔️ Within budget (₹{pg['price']})")
-    else:
-        st.write(f"⚠️ Above budget (₹{pg['price']})")
-
-    if original["location"] == user["location"]:
-        st.write("📍 Exact location match")
-
-    if original["food"] == "Yes":
-        st.write("🍽️ Food available")
-
-    if original["crowd"] == user["crowd"]:
-        st.write("👥 Preferred crowd match")
+    st.write(f"💰 Price: ₹{pg['price']}")
+    st.write(f"📍 Location: {pg['location']}")
+    st.write(f"🍽️ Food: {pg['food']}")
+    st.write(f"👥 Crowd: {pg['crowd']}")
 
     # WHY CHOOSE
     st.markdown("**Why choose this PG?**")
-    if original["cleanliness"] >= 8:
+    if pg["cleanliness"] >= 8:
         st.write("✨ High cleanliness")
-    if original["food_quality"] >= 7:
+    if pg["food_quality"] >= 7:
         st.write("🍛 Good food quality")
 
-    # -------- THINGS TO CONSIDER --------
-st.markdown("**Things to consider:**")
+    # ✅ FINAL FIXED SECTION
+    st.markdown("**Things to consider:**")
 
-issues = []
+    if issues:
+        for issue in issues:
+            st.warning(issue)
+    else:
+        st.success("✅ No major issues — excellent match!")
 
-# Budget issue
-if pg["price"] > user["budget"]:
-    issues.append(f"⚠️ Above budget (₹{pg['price']})")
-
-# Cleanliness issue
-if original["cleanliness"] < 7:
-    issues.append("⚠️ Cleanliness could be better")
-
-# Food quality issue
-if original["food_quality"] < 6:
-    issues.append("⚠️ Food quality is average/low")
-
-# Crowd mismatch
-if original["crowd"] != user["crowd"]:
-    issues.append("⚠️ Crowd may not match preference")
-
-# Room mismatch (extra smart)
-if original["room"] != user["room"]:
-    issues.append("⚠️ Room type not matching preference")
-
-# Food not available
-if user["food"] == "Yes" and original["food"] != "Yes":
-    issues.append("⚠️ Food not available")
-
-# 🔥 FINAL OUTPUT (ALWAYS SHOW)
-if issues:
-    for issue in issues:
-        st.warning(issue)
-else:
-    st.success("✅ No major issues — excellent match!")
+    st.markdown("---")
