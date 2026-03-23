@@ -156,7 +156,11 @@ for pg in scored_pgs[:3]:
     # DRAWBACKS
     st.markdown("**Things to consider:**")
 
-issues = []
+if len(issues) == 0:
+    st.success("No major issues — great match! ✅")
+else:
+    for issue in issues:
+        st.warning(issue)
 
 if pg["price"] > user["budget"]:
     issues.append(f"⚠️ Above budget (₹{pg['price']})")
