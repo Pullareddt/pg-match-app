@@ -155,13 +155,22 @@ for pg in scored_pgs[:3]:
 
     # DRAWBACKS
     st.markdown("**Things to consider:**")
-    if pg["price"] > user["budget"]:
-        st.write("⚠️ Slightly above budget")
-    if original["cleanliness"] < 7:
-        st.write("⚠️ Cleanliness could be better")
-    if original["food_quality"] < 6:
-        st.write("⚠️ Food quality is average/low")
-    if original["crowd"] != user["crowd"]:
-        st.write("⚠️ Mixed crowd")
+    issues = []
 
-    st.divider()
+if pg["price"] > user["budget"]:
+    issues.append("⚠️ Slightly above budget")
+
+if original["cleanliness"] < 7:
+    issues.append("⚠️ Cleanliness could be better")
+
+if original["food_quality"] < 6:
+    issues.append("⚠️ Food quality is average/low")
+
+if original["crowd"] != user["crowd"]:
+    issues.append("⚠️ Crowd may not match preference")
+
+if len(issues) == 0:
+    st.write("✅ No major issues — great match!")
+else:
+    for issue in issues:
+        st.write(issue)
