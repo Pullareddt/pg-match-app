@@ -151,3 +151,4 @@ for pg in scored_pgs[:3]:
     st.map(map_data)
 
     st.divider()
+    
