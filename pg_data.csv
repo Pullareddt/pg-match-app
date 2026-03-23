@@ -1,0 +1,110 @@
+name,price,location,food,gender,room,cleanliness,food_quality,crowd,rating
+PG 1,5000,ameerpet,Yes,Male,Non-AC,8,7,Employees,4.1
+PG 2,6500,ameerpet,Yes,Female,AC,9,8,Employees,4.5
+PG 3,4800,sr nagar,Yes,Female,Non-AC,6,6,Students,3.7
+PG 4,7200,madhapur,Yes,Male,AC,9,8,Employees,4.6
+PG 5,5500,kphb,No,Male,Non-AC,6,5,Students,3.5
+PG 6,6000,kukatpally,Yes,Female,Non-AC,7,7,Mixed,4.0
+PG 7,8000,hitech city,Yes,Male,AC,9,9,Employees,4.8
+PG 8,5200,ameerpet,Yes,Female,Non-AC,7,6,Students,3.9
+PG 9,9000,madhapur,Yes,Female,AC,10,9,Employees,4.9
+PG 10,4500,kphb,No,Male,Non-AC,5,5,Students,3.2
+
+PG 11,5300,ameerpet,Yes,Male,Non-AC,8,7,Employees,4.2
+PG 12,7000,ameerpet,Yes,Female,AC,9,8,Employees,4.6
+PG 13,4900,sr nagar,Yes,Female,Non-AC,6,6,Students,3.8
+PG 14,7500,madhapur,Yes,Male,AC,9,8,Employees,4.7
+PG 15,5600,kphb,No,Male,Non-AC,6,5,Students,3.6
+PG 16,6100,kukatpally,Yes,Female,Non-AC,7,7,Mixed,4.1
+PG 17,8200,hitech city,Yes,Male,AC,9,9,Employees,4.9
+PG 18,5400,ameerpet,Yes,Female,Non-AC,7,6,Students,4.0
+PG 19,9200,madhapur,Yes,Female,AC,10,9,Employees,5.0
+PG 20,4600,kphb,No,Male,Non-AC,5,5,Students,3.3
+
+PG 21,5100,ameerpet,Yes,Male,Non-AC,8,7,Employees,4.1
+PG 22,6600,ameerpet,Yes,Female,AC,9,8,Employees,4.5
+PG 23,4700,sr nagar,Yes,Female,Non-AC,6,6,Students,3.7
+PG 24,7300,madhapur,Yes,Male,AC,9,8,Employees,4.6
+PG 25,5700,kphb,No,Male,Non-AC,6,5,Students,3.5
+PG 26,6200,kukatpally,Yes,Female,Non-AC,7,7,Mixed,4.0
+PG 27,8300,hitech city,Yes,Male,AC,9,9,Employees,4.8
+PG 28,5500,ameerpet,Yes,Female,Non-AC,7,6,Students,3.9
+PG 29,9100,madhapur,Yes,Female,AC,10,9,Employees,4.9
+PG 30,4400,kphb,No,Male,Non-AC,5,5,Students,3.2
+
+PG 31,5200,ameerpet,Yes,Male,Non-AC,8,7,Employees,4.2
+PG 32,6800,ameerpet,Yes,Female,AC,9,8,Employees,4.6
+PG 33,4950,sr nagar,Yes,Female,Non-AC,6,6,Students,3.8
+PG 34,7600,madhapur,Yes,Male,AC,9,8,Employees,4.7
+PG 35,5800,kphb,No,Male,Non-AC,6,5,Students,3.6
+PG 36,6300,kukatpally,Yes,Female,Non-AC,7,7,Mixed,4.1
+PG 37,8400,hitech city,Yes,Male,AC,9,9,Employees,4.9
+PG 38,5600,ameerpet,Yes,Female,Non-AC,7,6,Students,4.0
+PG 39,9300,madhapur,Yes,Female,AC,10,9,Employees,5.0
+PG 40,4700,kphb,No,Male,Non-AC,5,5,Students,3.3
+
+PG 41,5300,ameerpet,Yes,Male,Non-AC,8,7,Employees,4.1
+PG 42,6900,ameerpet,Yes,Female,AC,9,8,Employees,4.5
+PG 43,4850,sr nagar,Yes,Female,Non-AC,6,6,Students,3.7
+PG 44,7400,madhapur,Yes,Male,AC,9,8,Employees,4.6
+PG 45,5900,kphb,No,Male,Non-AC,6,5,Students,3.5
+PG 46,6400,kukatpally,Yes,Female,Non-AC,7,7,Mixed,4.0
+PG 47,8500,hitech city,Yes,Male,AC,9,9,Employees,4.8
+PG 48,5700,ameerpet,Yes,Female,Non-AC,7,6,Students,3.9
+PG 49,9400,madhapur,Yes,Female,AC,10,9,Employees,4.9
+PG 50,4800,kphb,No,Male,Non-AC,5,5,Students,3.2
+
+PG 51,5400,ameerpet,Yes,Male,Non-AC,8,7,Employees,4.2
+PG 52,7000,ameerpet,Yes,Female,AC,9,8,Employees,4.6
+PG 53,4900,sr nagar,Yes,Female,Non-AC,6,6,Students,3.8
+PG 54,7600,madhapur,Yes,Male,AC,9,8,Employees,4.7
+PG 55,6000,kphb,No,Male,Non-AC,6,5,Students,3.6
+PG 56,6500,kukatpally,Yes,Female,Non-AC,7,7,Mixed,4.1
+PG 57,8600,hitech city,Yes,Male,AC,9,9,Employees,4.9
+PG 58,5800,ameerpet,Yes,Female,Non-AC,7,6,Students,4.0
+PG 59,9500,madhapur,Yes,Female,AC,10,9,Employees,5.0
+PG 60,4900,kphb,No,Male,Non-AC,5,5,Students,3.3
+
+PG 61,5500,ameerpet,Yes,Male,Non-AC,8,7,Employees,4.1
+PG 62,7100,ameerpet,Yes,Female,AC,9,8,Employees,4.5
+PG 63,5000,sr nagar,Yes,Female,Non-AC,6,6,Students,3.7
+PG 64,7700,madhapur,Yes,Male,AC,9,8,Employees,4.6
+PG 65,6100,kphb,No,Male,Non-AC,6,5,Students,3.5
+PG 66,6600,kukatpally,Yes,Female,Non-AC,7,7,Mixed,4.0
+PG 67,8700,hitech city,Yes,Male,AC,9,9,Employees,4.8
+PG 68,5900,ameerpet,Yes,Female,Non-AC,7,6,Students,3.9
+PG 69,9600,madhapur,Yes,Female,AC,10,9,Employees,4.9
+PG 70,5000,kphb,No,Male,Non-AC,5,5,Students,3.2
+
+PG 71,5600,ameerpet,Yes,Male,Non-AC,8,7,Employees,4.2
+PG 72,7200,ameerpet,Yes,Female,AC,9,8,Employees,4.6
+PG 73,5100,sr nagar,Yes,Female,Non-AC,6,6,Students,3.8
+PG 74,7800,madhapur,Yes,Male,AC,9,8,Employees,4.7
+PG 75,6200,kphb,No,Male,Non-AC,6,5,Students,3.6
+PG 76,6700,kukatpally,Yes,Female,Non-AC,7,7,Mixed,4.1
+PG 77,8800,hitech city,Yes,Male,AC,9,9,Employees,4.9
+PG 78,6000,ameerpet,Yes,Female,Non-AC,7,6,Students,4.0
+PG 79,9700,madhapur,Yes,Female,AC,10,9,Employees,5.0
+PG 80,5100,kphb,No,Male,Non-AC,5,5,Students,3.3
+
+PG 81,5700,ameerpet,Yes,Male,Non-AC,8,7,Employees,4.1
+PG 82,7300,ameerpet,Yes,Female,AC,9,8,Employees,4.5
+PG 83,5200,sr nagar,Yes,Female,Non-AC,6,6,Students,3.7
+PG 84,7900,madhapur,Yes,Male,AC,9,8,Employees,4.6
+PG 85,6300,kphb,No,Male,Non-AC,6,5,Students,3.5
+PG 86,6800,kukatpally,Yes,Female,Non-AC,7,7,Mixed,4.0
+PG 87,8900,hitech city,Yes,Male,AC,9,9,Employees,4.8
+PG 88,6100,ameerpet,Yes,Female,Non-AC,7,6,Students,3.9
+PG 89,9800,madhapur,Yes,Female,AC,10,9,Employees,4.9
+PG 90,5200,kphb,No,Male,Non-AC,5,5,Students,3.2
+
+PG 91,5800,ameerpet,Yes,Male,Non-AC,8,7,Employees,4.2
+PG 92,7400,ameerpet,Yes,Female,AC,9,8,Employees,4.6
+PG 93,5300,sr nagar,Yes,Female,Non-AC,6,6,Students,3.8
+PG 94,8000,madhapur,Yes,Male,AC,9,8,Employees,4.7
+PG 95,6400,kphb,No,Male,Non-AC,6,5,Students,3.6
+PG 96,6900,kukatpally,Yes,Female,Non-AC,7,7,Mixed,4.1
+PG 97,9000,hitech city,Yes,Male,AC,9,9,Employees,4.9
+PG 98,6200,ameerpet,Yes,Female,Non-AC,7,6,Students,4.0
+PG 99,9900,madhapur,Yes,Female,AC,10,9,Employees,5.0
+PG 100,5300,kphb,No,Male,Non-AC,5,5,Students,3.3
