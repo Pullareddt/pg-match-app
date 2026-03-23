@@ -153,30 +153,30 @@ for pg in scored_pgs[:3]:
     if original["food_quality"] >= 7:
         st.write("🍛 Good food quality")
 
-    # DRAWBACKS
-    st.markdown("**Things to consider:**")
+    # -------- THINGS TO CONSIDER --------
+st.markdown("**Things to consider:**")
 
-if len(issues) == 0:
-    st.success("No major issues — great match! ✅")
-else:
-    for issue in issues:
-        st.warning(issue)
+issues = []   # ✅ MUST BE HERE
 
+# Budget issue
 if pg["price"] > user["budget"]:
     issues.append(f"⚠️ Above budget (₹{pg['price']})")
 
+# Cleanliness
 if original["cleanliness"] < 7:
     issues.append("⚠️ Cleanliness could be better")
 
+# Food quality
 if original["food_quality"] < 6:
     issues.append("⚠️ Food quality is average/low")
 
+# Crowd mismatch
 if original["crowd"] != user["crowd"]:
     issues.append("⚠️ Crowd may not match preference")
 
-# ✅ THIS IS THE FIX
-if len(issues) == 0:
-    st.write("✅ No major issues — great match!")
-else:
+# ✅ FINAL OUTPUT
+if issues:
     for issue in issues:
-        st.write(issue)
+        st.warning(issue)
+else:
+    st.success("No major issues — great match! ✅")
