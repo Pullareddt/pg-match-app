@@ -155,10 +155,11 @@ for pg in scored_pgs[:3]:
 
     # DRAWBACKS
     st.markdown("**Things to consider:**")
-    issues = []
+
+issues = []
 
 if pg["price"] > user["budget"]:
-    issues.append("⚠️ Slightly above budget")
+    issues.append(f"⚠️ Above budget (₹{pg['price']})")
 
 if original["cleanliness"] < 7:
     issues.append("⚠️ Cleanliness could be better")
@@ -169,6 +170,7 @@ if original["food_quality"] < 6:
 if original["crowd"] != user["crowd"]:
     issues.append("⚠️ Crowd may not match preference")
 
+# ✅ THIS IS THE FIX
 if len(issues) == 0:
     st.write("✅ No major issues — great match!")
 else:
