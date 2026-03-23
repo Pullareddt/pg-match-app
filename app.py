@@ -156,17 +156,17 @@ for pg in scored_pgs[:3]:
     # -------- THINGS TO CONSIDER --------
 st.markdown("**Things to consider:**")
 
-issues = []   # ✅ MUST BE HERE
+issues = []
 
 # Budget issue
 if pg["price"] > user["budget"]:
     issues.append(f"⚠️ Above budget (₹{pg['price']})")
 
-# Cleanliness
+# Cleanliness issue
 if original["cleanliness"] < 7:
     issues.append("⚠️ Cleanliness could be better")
 
-# Food quality
+# Food quality issue
 if original["food_quality"] < 6:
     issues.append("⚠️ Food quality is average/low")
 
@@ -174,9 +174,17 @@ if original["food_quality"] < 6:
 if original["crowd"] != user["crowd"]:
     issues.append("⚠️ Crowd may not match preference")
 
-# ✅ FINAL OUTPUT
+# Room mismatch (extra smart)
+if original["room"] != user["room"]:
+    issues.append("⚠️ Room type not matching preference")
+
+# Food not available
+if user["food"] == "Yes" and original["food"] != "Yes":
+    issues.append("⚠️ Food not available")
+
+# 🔥 FINAL OUTPUT (ALWAYS SHOW)
 if issues:
     for issue in issues:
         st.warning(issue)
 else:
-    st.success("No major issues — great match! ✅")
+    st.success("✅ No major issues — excellent match!")
