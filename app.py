@@ -1,20 +1,23 @@
 import streamlit as st
+import pandas as pd
+import math
 import random
 
 st.set_page_config(page_title="PG Match Engine", layout="wide")
 
 st.title("🏠 PG Match Engine")
 
-# ---------------- USER INPUT ----------------
+# ---------------- LOAD CSV ----------------
+df = pd.read_csv("pg_data.csv")
+pg_data = df.to_dict(orient="records")
 
-# ✅ FIXED SLIDER (STEP VALUE)
+# ---------------- USER INPUT ----------------
 budget = st.slider("Budget", 3000, 10000, step=500, value=6000)
 
 food = st.selectbox("Food Required", ["Yes", "No"])
 gender = st.selectbox("Gender", ["Male", "Female"])
 crowd = st.selectbox("Preferred Crowd", ["Employees", "Students", "Mixed"])
 
-# ✅ LOCATION DROPDOWN (FORM STYLE)
 location = st.selectbox(
     "Preferred Location",
     ["ameerpet", "sr nagar", "madhapur", "kphb", "kukatpally", "hitech city"]
@@ -29,28 +32,22 @@ user = {
     "crowd": crowd
 }
 
-# ---------------- DYNAMIC PG DATA (50 PGs) ----------------
+# ---------------- LOCATION COORDS ----------------
+location_coords = {
+    "ameerpet": (17.4375, 78.4483),
+    "sr nagar": (17.4410, 78.4485),
+    "madhapur": (17.4485, 78.3908),
+    "kphb": (17.4933, 78.3997),
+    "kukatpally": (17.4948, 78.3996),
+    "hitech city": (17.4484, 78.3915)
+}
 
-locations = ["ameerpet", "sr nagar", "madhapur", "kphb", "kukatpally", "hitech city"]
-crowds = ["Employees", "Students", "Mixed"]
-
-pg_data = []
-
-for i in range(50):
-    pg_data.append({
-        "name": f"PG {i+1}",
-        "price": random.choice(range(4000, 10001, 500)),
-        "location": random.choice(locations),
-        "food": random.choice(["Yes", "No"]),
-        "gender": random.choice(["Male", "Female"]),
-        "room": random.choice(["AC", "Non-AC"]),
-        "cleanliness": random.randint(5, 10),
-        "food_quality": random.randint(5, 10),
-        "crowd": random.choice(crowds)
-    })
+def calculate_distance(loc1, loc2):
+    lat1, lon1 = location_coords.get(loc1, (0,0))
+    lat2, lon2 = location_coords.get(loc2, (0,0))
+    return math.sqrt((lat1-lat2)**2 + (lon1-lon2)**2)
 
 # ---------------- FILTER ----------------
-
 filtered_pgs = []
 
 for pg in pg_data:
@@ -61,7 +58,6 @@ for pg in pg_data:
     filtered_pgs.append(pg)
 
 # ---------------- SCORING ----------------
-
 results = []
 
 for pg in filtered_pgs:
@@ -76,18 +72,22 @@ for pg in filtered_pgs:
         score += 15
         issues.append(f"⚠️ Above budget (₹{pg['price']})")
 
-    # Location
-    if pg["location"] == user["location"]:
+    # Distance
+    dist = calculate_distance(pg["location"], user["location"])
+
+    if dist == 0:
         score += 25
+    elif dist < 0.01:
+        score += 15
     else:
-        score += 10
+        score += 5
 
     # Cleanliness
     score += (pg["cleanliness"]/10) * 15
     if pg["cleanliness"] < 7:
         issues.append("⚠️ Cleanliness could be better")
 
-    # Food quality
+    # Food Quality
     score += (pg["food_quality"]/10) * 10
     if pg["food_quality"] < 6:
         issues.append("⚠️ Food quality is average/low")
@@ -97,12 +97,6 @@ for pg in filtered_pgs:
         score += 10
     else:
         issues.append("⚠️ Crowd may not match preference")
-
-    # Room
-    if pg["room"] == user["room"]:
-        score += 5
-    else:
-        issues.append("⚠️ Room type mismatch")
 
     results.append({
         "pg": pg,
@@ -114,8 +108,15 @@ for pg in filtered_pgs:
 results.sort(key=lambda x: x["score"], reverse=True)
 
 # ---------------- OUTPUT ----------------
-
 st.subheader("🏆 Top Matches")
+
+reviews = [
+    "Good place 👍",
+    "Food is decent 🍛",
+    "Clean rooms ✨",
+    "Affordable 💰",
+    "Nice environment 😊"
+]
 
 for item in results[:3]:
 
@@ -135,23 +136,17 @@ for item in results[:3]:
     st.markdown(f"### 🏠 {pg['name']} — {score}% Match")
     st.markdown(" | ".join(tags))
 
-    # WHY MATCH
-    st.markdown("**Why this match?**")
+    # DETAILS
     st.write(f"💰 Price: ₹{pg['price']}")
     st.write(f"📍 Location: {pg['location']}")
-    st.write(f"🍽️ Food: {pg['food']}")
-    st.write(f"👥 Crowd: {pg['crowd']}")
+    st.write(f"⭐ Rating: {pg['rating']}/5")
 
-    # WHY CHOOSE
-    st.markdown("**Why choose this PG?**")
-    if pg["cleanliness"] >= 8:
-        st.write("✨ High cleanliness")
-    if pg["food_quality"] >= 7:
-        st.write("🍛 Good food quality")
+    # REVIEW
+    st.write("🗣️ Review:")
+    st.write(random.choice(reviews))
 
-    # THINGS TO CONSIDER
+    # ISSUES
     st.markdown("**Things to consider:**")
-
     if issues:
         for issue in issues:
             st.warning(issue)
